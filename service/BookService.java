@@ -13,6 +13,10 @@ public class BookService {
     }
 
     public Book[] getByUser(User currentUser) {
-       return null; //todo call from bookStorage
+        return bookStorage.userBooks(currentUser);
     }
+  public void AllBook(){
+        bookStorage.AllBook();
+  }
+
 }

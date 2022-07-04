@@ -7,6 +7,7 @@ import smallProject.model.User;
 import smallProject.service.BookService;
 import smallProject.service.UserService;
 
+
 import java.util.Scanner;
 
 public class Application {
@@ -21,6 +22,7 @@ public class Application {
         while (!findNormalCommand) {
             System.out.println("For registration please input 1");
             System.out.println("For login please input 2");
+            System.out.println("For exit the program input 3");
             String command = scanner.nextLine();
             switch (command) {
                 case "1": {
@@ -33,8 +35,13 @@ public class Application {
                     findNormalCommand = true;
                     break;
                 }
+                case "3": {
+                    close();
+                    findNormalCommand = true;
+                    break;
+                }
                 default: {
-                    System.out.println("Please input only 1 or 2");
+                    System.out.println("Please input only 1 or 2 or 3");
                 }
             }
 
@@ -52,8 +59,8 @@ public class Application {
 
         try {
             currentUser = userService.login(email, password);
-            System.out.println("Login success");
-            start();   //removable
+            System.out.println(" * Login success *");
+            menu();   //removable
 
         } catch (UserNotFoundException e) {
             System.out.println(e.getMessage());
@@ -77,7 +84,7 @@ public class Application {
         String password = scanner.nextLine();
         try {
             currentUser = userService.registration(new User(name, surname, email, password));
-            System.out.println("Registration success");
+            System.out.println(" * Registration success * ");
             menu();
         } catch (UserAlreadyExistsException e) {
             System.out.println(e.getMessage());
@@ -125,17 +132,23 @@ public class Application {
 
 
     private void logOut() {
-
+        System.out.println("You are logOut");
+        start();
     }
 
     private void printAllBooks() {
+        bookService.AllBook();
+        start();
     }
 
     private void printCurrentUserBooks() {
-        Book [] books = bookService.getByUser(currentUser);
+        Book[] books = bookService.getByUser(currentUser);
         for (Book book : books) {
-            System.out.println();
+            if (book != null)
+                System.out.println(book);
         }
+
+        menu();
     }
 
     private void addNewBook() {
@@ -167,5 +180,7 @@ public class Application {
         return page;
     }
 
-
+private void close(){
+    System.out.println(" *** Program completed ***");
+}
 }
